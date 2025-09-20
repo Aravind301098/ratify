@@ -1,0 +1,241 @@
+<div class="test-generator-container">
+    <header class="generator-header">
+        <button class="back-btn" (click)="goBack()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </button>
+        <div class="header-content">
+            <h1>AI Test Case Generator</h1>
+            <p>Generate comprehensive test cases with AI assistance</p>
+        </div>
+    </header>
+
+    <div class="generator-content">
+        <div class="generator-grid">
+            <!-- Input Method Section -->
+            <div class="input-section">
+                <div class="section-header">
+                    <h2>Input Method</h2>
+                    <p>Choose how you want to generate test cases</p>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="method-tabs">
+                    <button class="method-tab" [class.active]="activeTab === 'upload'" (click)="switchTab('upload')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        Upload Files
+                    </button>
+                    <button class="method-tab" [class.active]="activeTab === 'url'" (click)="switchTab('url')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M10 13C10.4295 13.5741 10.9774 14.0491 11.6066 14.3929C12.2357 14.7367 12.9315 14.9411 13.6467 14.9923C14.3618 15.0435 15.0796 14.9403 15.7513 14.6897C16.4231 14.4392 17.0331 14.047 17.54 13.54L20.54 10.54C21.4508 9.59695 21.9548 8.33394 21.9434 7.02296C21.932 5.71198 21.4061 4.45791 20.4791 3.53087C19.5521 2.60383 18.298 2.07799 16.987 2.0666C15.676 2.0552 14.413 2.55918 13.47 3.47L11.75 5.18"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M14 11C13.5705 10.4259 13.0226 9.95085 12.3934 9.60706C11.7643 9.26327 11.0685 9.05885 10.3533 9.00769C9.63819 8.95653 8.92037 9.05973 8.24864 9.31028C7.5769 9.56083 6.9669 9.95303 6.46 10.46L3.46 13.46C2.54918 14.403 2.04520 15.6661 2.05660 16.977C2.068 18.288 2.59384 19.5421 3.52088 20.4691C4.44792 21.3962 5.70199 21.922 7.01297 21.9334C8.32395 21.9448 9.58696 21.4408 10.53 20.53L12.24 18.82"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        URL/GitHub
+                    </button>
+                </div>
+
+                <!-- Upload Files Content -->
+                <div *ngIf="activeTab === 'upload'" class="upload-content">
+                    <div class="upload-area" [class.has-files]="selectedFiles.length > 0">
+                        <div class="upload-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="upload-text">
+                            <p class="upload-title">Upload images, videos, PDFs, or documents</p>
+                        </div>
+                        <input type="file" multiple (change)="onFileSelect($event)" class="file-input"
+                            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.mp4,.avi">
+                        <button class="choose-files-btn">Choose Files</button>
+                    </div>
+
+                    <!-- Selected Files -->
+                    <div *ngIf="selectedFiles.length > 0" class="selected-files">
+                        <h3>Selected Files ({{ selectedFiles.length }})</h3>
+                        <div class="file-list">
+                            <div *ngFor="let file of selectedFiles; let i = index" class="file-item">
+                                <div class="file-info">
+                                    <div class="file-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.89 22 5.99 22H18C19.1 22 20 21.1 20 20V8L14 2Z"
+                                                fill="currentColor" />
+                                        </svg>
+                                    </div>
+                                    <div class="file-details">
+                                        <div class="file-name">{{ file.name }}</div>
+                                        <div class="file-size">{{ (file.size / 1024 / 1024).toFixed(2) }} MB</div>
+                                    </div>
+                                </div>
+                                <button class="remove-file-btn" (click)="removeFile(i)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- URL/GitHub Content -->
+                <div *ngIf="activeTab === 'url'" class="url-content">
+                    <div class="url-options">
+                        <div class="option-item">
+                            <input type="radio" id="requirement" name="urlOption" [(ngModel)]="requirementRequired"
+                                [value]="true">
+                            <label for="requirement">Is Requirement Required?</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" id="userStories" name="urlOption" [(ngModel)]="userStoriesRequired"
+                                [value]="true" checked>
+                            <label for="userStories">Is User Stories Required?</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" id="nonFunctional" name="urlOption" [(ngModel)]="nonFunctionalRequired"
+                                [value]="true">
+                            <label for="nonFunctional">Is Non-Functional Testcase Required?</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" id="regressionSuite" name="urlOption"
+                                [(ngModel)]="regressionSuiteRequired" [value]="true">
+                            <label for="regressionSuite">Is Regression Suite Required?</label>
+                        </div>
+                    </div>
+
+                    <div class="url-input-group">
+                        <input type="text" [(ngModel)]="urlInput" placeholder="Enter URL or GitHub Repository"
+                            class="url-input">
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button class="generate-btn"
+                    [disabled]="(activeTab === 'upload' && selectedFiles.length === 0) || (activeTab === 'url' && !urlInput.trim()) || isGenerating"
+                    (click)="generateTestCases()">
+                    <svg *ngIf="!isGenerating" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <div *ngIf="isGenerating" class="spinner"></div>
+                    {{ isGenerating ? 'Generating...' : 'Generate with RAT AI' }}
+                </button>
+            </div>
+
+            <!-- Generated Test Cases Section -->
+            <div class="results-section">
+                <div class="section-header">
+                    <h2>Generated Test Cases</h2>
+                    <p *ngIf="generatedTestCases.length === 0">Test cases will appear here after generation</p>
+                    <div *ngIf="generatedTestCases.length > 0" class="results-header">
+                        <span>{{ generatedTestCases.length }} test cases generated by AI</span>
+                        <button class="execute-all-btn" (click)="executeAllTests()">Execute All</button>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div *ngIf="generatedTestCases.length === 0 && !isGenerating" class="empty-state">
+                    <div class="empty-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <h3>Ready to generate test cases</h3>
+                    <p>Upload files or provide a URL to get started with AI-powered test case generation</p>
+                </div>
+
+                <!-- Loading State -->
+                <div *ngIf="isGenerating" class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <h3>Generating test cases...</h3>
+                    <p>AI is analyzing your input and creating comprehensive test cases</p>
+                </div>
+
+                <!-- Test Cases List -->
+                <div *ngIf="generatedTestCases.length > 0" class="test-cases-list">
+                    <div *ngFor="let testCase of generatedTestCases" class="test-case-card">
+                        <div class="test-case-header">
+                            <div class="test-case-title">
+                                <h3>{{ testCase.title }}</h3>
+                                <div class="test-case-badges">
+                                    <span class="priority-badge" [ngClass]="getPriorityClass(testCase.priority)">
+                                        {{ testCase.priority }}
+                                    </span>
+                                    <span class="type-badge" [ngClass]="getTypeClass(testCase.type)">
+                                        {{ testCase.type }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="test-case-actions">
+                                <button class="action-btn" (click)="editTestCase(testCase)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path
+                                            d="M18.5 2.50023C18.8978 2.1024 19.4374 1.87891 20 1.87891C20.5626 1.87891 21.1022 2.1024 21.5 2.50023C21.8978 2.89805 22.1213 3.43762 22.1213 4.00023C22.1213 4.56284 21.8978 5.1024 21.5 5.50023L12 15.0002L8 16.0002L9 12.0002L18.5 2.50023Z"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </button>
+                                <button class="action-btn execute-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 19V6L21 12L9 19Z" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="test-case-content">
+                            <p class="test-description">{{ testCase.description }}</p>
+
+                            <div class="test-steps">
+                                <h4>Steps:</h4>
+                                <ol>
+                                    <li *ngFor="let step of testCase.steps">{{ step }}</li>
+                                </ol>
+                            </div>
+
+                            <div class="expected-result">
+                                <h4>Expected Result:</h4>
+                                <p>{{ testCase.expectedResult }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

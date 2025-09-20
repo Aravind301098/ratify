@@ -1,0 +1,69 @@
+.auth-card {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+  background-color: #fff;
+}
+
+.auth-card h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.auth-card form label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #444;
+}
+
+.auth-card form input {
+  width: 100%;
+  padding: 8px 12px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 15px;
+}
+
+.auth-card form input.ng-invalid.ng-touched {
+  border-color: #e74c3c;
+}
+
+.auth-card .error {
+  color: #e74c3c;
+  font-size: 0.9em;
+  margin-top: 2px;
+}
+
+.auth-card button {
+  margin-top: 20px;
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 0;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.auth-card button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.auth-card .switch-link {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 0.95em;
+}
+
+.auth-card .switch-link a {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+}

@@ -1,0 +1,40 @@
+<div class="auth-card">
+    <h2>Signup</h2>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name" />
+        <div *ngIf="signupForm.controls.name.invalid && signupForm.controls.name.touched" class="error">
+            Name is required.
+        </div>
+
+        <label for="mobile">Mobile Number</label>
+        <input id="mobile" type="text" formControlName="mobile" />
+        <div *ngIf="signupForm.controls.mobile.invalid && signupForm.controls.mobile.touched" class="error">
+            Enter valid 10 digit mobile number.
+        </div>
+
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" />
+        <div *ngIf="signupForm.controls.email.invalid && signupForm.controls.email.touched" class="error">
+            Enter a valid email.
+        </div>
+
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password" />
+        <div *ngIf="signupForm.controls.password.invalid && signupForm.controls.password.touched" class="error">
+            Password is required.
+        </div>
+
+        <label for="confirmPassword">Confirm Password</label>
+        <input id="confirmPassword" type="password" formControlName="confirmPassword" />
+        <div *ngIf="signupForm.errors?.passwordMismatch && signupForm.controls.confirmPassword.touched" class="error">
+            Passwords do not match.
+        </div>
+
+        <button type="submit" [disabled]="signupForm.invalid">Signup</button>
+    </form>
+
+    <p class="switch-link">
+        Already have an account? <a (click)="goToLogin()">Login</a>
+    </p>
+</div>

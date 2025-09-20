@@ -1,0 +1,137 @@
+<div class="bugs-page">
+    <header class="page-header">
+        <div class="header-content">
+            <h1>Bug Management</h1>
+            <p>Track and manage defects across test cycles</p>
+        </div>
+        <button class="btn btn-primary" (click)="reportNewBug()">
+            ➕ Report New Bug
+        </button>
+    </header>
+
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+        <div class="card open">
+            <div class="card-icon">🐛</div>
+            <div class="card-content">
+                <div class="card-value">{{openBugs}}</div>
+                <div class="card-label">Open Bugs</div>
+            </div>
+        </div>
+        <div class="card progress">
+            <div class="card-icon">⏳</div>
+            <div class="card-content">
+                <div class="card-value">{{inProgress}}</div>
+                <div class="card-label">In Progress</div>
+            </div>
+        </div>
+        <div class="card resolved">
+            <div class="card-icon">✅</div>
+            <div class="card-content">
+                <div class="card-value">{{resolved}}</div>
+                <div class="card-label">Resolved</div>
+            </div>
+        </div>
+        <div class="card critical">
+            <div class="card-icon">⚠️</div>
+            <div class="card-content">
+                <div class="card-value">{{critical}}</div>
+                <div class="card-label">Critical</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+        <input type="text" class="search-input" placeholder="Search bugs by ID, title, or description..."
+            [(ngModel)]="searchTerm">
+        <select class="filter-select" [(ngModel)]="selectedStatus">
+            <option>All Status</option>
+            <option>Open</option>
+            <option>In Progress</option>
+            <option>Resolved</option>
+            <option>Critical</option>
+        </select>
+        <select class="filter-select" [(ngModel)]="selectedSeverity">
+            <option>All Severity</option>
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+        </select>
+        <select class="filter-select" [(ngModel)]="selectedEnvironment">
+            <option>All Environments</option>
+            <option>UAT</option>
+            <option>SIT</option>
+        </select>
+        <button class="btn btn-outline">🔧 More Filters</button>
+    </div>
+
+    <!-- Bug List -->
+    <div class="bugs-list">
+        <div *ngFor="let bug of bugs" class="bug-card">
+            <div class="bug-header">
+                <div class="bug-meta">
+                    <span class="bug-id">{{bug.id}}</span>
+                    <span class="status-badge" [class]="getStatusBadgeClass(bug.status)">{{bug.status}}</span>
+                    <span class="severity-badge" [class]="getSeverityBadgeClass(bug.severity)">{{bug.severity}}</span>
+                    <span class="environment-badge">{{bug.environment}}</span>
+                </div>
+                <div class="bug-actions">
+                    <button class="btn btn-outline" (click)="editBug(bug.id)">Edit</button>
+                    <button class="btn btn-outline" (click)="viewDetails(bug.id)">View Details</button>
+                </div>
+            </div>
+
+            <div class="bug-content">
+                <h3 class="bug-title">{{bug.title}}</h3>
+                <p class="bug-description">{{bug.description}}</p>
+
+                <div class="impact-section">
+                    <h4>Impact Assessment</h4>
+                    <p>{{bug.impactAssessment}}</p>
+                </div>
+
+                <div class="bug-details">
+                    <div class="detail-section">
+                        <h4>Test Traceability</h4>
+                        <div class="detail-row">
+                            <span class="detail-label">Test Case:</span>
+                            <span class="detail-value">{{bug.testTraceability.testCase}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">User Story:</span>
+                            <span class="detail-value">{{bug.testTraceability.userStory}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Requirement:</span>
+                            <span class="detail-value">{{bug.testTraceability.requirement}}</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h4>Assignment</h4>
+                        <div class="detail-row">
+                            <span class="detail-label">Assignee:</span>
+                            <span class="detail-value">{{bug.assignment.assignee}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Reporter:</span>
+                            <span class="detail-value">{{bug.assignment.reporter}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Created:</span>
+                            <span class="detail-value">{{bug.assignment.created}}</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h4>Quick Actions</h4>
+                        <button class="action-btn" (click)="changeStatus(bug.id)">Change Status</button>
+                        <button class="action-btn" (click)="addComment(bug.id)">Add Comment</button>
+                        <button class="action-btn" (click)="attachFiles(bug.id)">Attach Files</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

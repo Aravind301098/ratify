@@ -1,0 +1,157 @@
+<div class="reports-page">
+    <header class="page-header">
+        <div class="header-content">
+            <h1>Test Closure Reports</h1>
+            <p>Automated sprint reports and analytics</p>
+        </div>
+        <button class="btn btn-primary" (click)="generateNewReport()">
+            📊 Generate New Report
+        </button>
+    </header>
+
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+        <div class="card">
+            <div class="card-icon">📈</div>
+            <div class="card-content">
+                <div class="card-value">{{totalSprints}}</div>
+                <div class="card-label">Total Sprints</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon">🎯</div>
+            <div class="card-content">
+                <div class="card-value">{{avgCoverage}}%</div>
+                <div class="card-label">Avg Coverage</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon">✅</div>
+            <div class="card-content">
+                <div class="card-value">{{passRate}}%</div>
+                <div class="card-label">Pass Rate</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon">🐛</div>
+            <div class="card-content">
+                <div class="card-value">{{totalDefects}}</div>
+                <div class="card-label">Total Defects</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sprint Reports Section -->
+    <section class="sprint-reports">
+        <h2>Sprint Reports</h2>
+
+        <div *ngFor="let report of sprintReports" class="report-card">
+            <div class="report-header">
+                <div class="report-meta">
+                    <span class="sprint-id">{{report.id}}</span>
+                    <span class="status-badge" [class]="'status-' + report.status.toLowerCase()">
+                        {{report.status}}
+                    </span>
+                    <span class="environment-badge">UAT</span>
+                </div>
+                <div class="report-actions">
+                    <button class="btn btn-outline" (click)="viewDetails(report.id)">
+                        👁️ View Details
+                    </button>
+                    <button class="btn btn-primary" (click)="exportPDF(report.id)">
+                        📄 Export PDF
+                    </button>
+                </div>
+            </div>
+
+            <div class="report-title">
+                <h3>{{report.title}}</h3>
+                <p>{{report.dateRange}}</p>
+            </div>
+
+            <div class="report-content">
+                <div class="report-section">
+                    <h4>Requirements</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Total</span>
+                        <span class="metric-value">{{report.requirements.total}}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label approved">Approved</span>
+                        <span class="metric-value">{{report.requirements.approved}}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label rejected">Rejected</span>
+                        <span class="metric-value">{{report.requirements.rejected}}</span>
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <h4>Test Execution</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Coverage</span>
+                        <span class="metric-value">{{report.testExecution.coverage}}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" [style.width.%]="report.testExecution.coverage"></div>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label passed">Passed</span>
+                        <span class="metric-value">{{report.testExecution.passed}}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label failed">Failed</span>
+                        <span class="metric-value">{{report.testExecution.failed}}</span>
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <h4>Defect Analysis</h4>
+                    <div class="metric-row">
+                        <span class="metric-label">Total Found</span>
+                        <span class="metric-value">{{report.defectAnalysis.totalFound}}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label resolved">Resolved</span>
+                        <span class="metric-value">{{report.defectAnalysis.resolved}}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label critical">Critical</span>
+                        <span class="metric-value">{{report.defectAnalysis.critical}}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label high">High</span>
+                        <span class="metric-value">{{report.defectAnalysis.high}}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label medium">Medium</span>
+                        <span class="metric-value">{{report.defectAnalysis.medium}}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label low">Low</span>
+                        <span class="metric-value">{{report.defectAnalysis.low}}</span>
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <h4>Quality Metrics</h4>
+                    <div class="quality-metric">
+                        <span class="quality-label">Pass Rate</span>
+                        <span class="quality-value success">{{report.qualityMetrics.passRate}}%</span>
+                    </div>
+                    <div class="quality-metric">
+                        <span class="quality-label">Resolution Rate</span>
+                        <span class="quality-value info">{{report.qualityMetrics.resolutionRate}}%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="report.keyInsights.length > 0" class="key-insights">
+                <h4>🔍 Key Insights</h4>
+                <ul>
+                    <li *ngFor="let insight of report.keyInsights">{{insight}}</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>

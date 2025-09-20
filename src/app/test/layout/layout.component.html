@@ -1,0 +1,36 @@
+<div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="brand">
+                <div class="brand-logo">TM</div>
+                <div class="brand-text">
+                    <div class="brand-title">TestManager</div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a *ngFor="let item of menuItems" class="nav-item" [class.active]="isActiveRoute(item.route)">
+                <span class="nav-icon">{{item.icon}}</span>
+                <span class="nav-label">{{item.label}}</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">JD</div>
+                <div class="user-details">
+                    <div class="user-name">{{currentUser.name}}</div>
+                    <div class="user-email">{{currentUser.email}}</div>
+                </div>
+            </div>
+            <button class="sign-out-btn" (click)="signOut()">Sign out</button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <router-outlet></router-outlet>
+    </main>
+</div>

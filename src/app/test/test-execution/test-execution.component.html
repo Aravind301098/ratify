@@ -1,0 +1,139 @@
+<div class="execution-page">
+    <header class="page-header">
+        <div class="header-content">
+            <h1>Test Execution</h1>
+            <p>Monitor and manage test execution cycles</p>
+        </div>
+        <button class="btn btn-primary" (click)="startNewExecution()">
+            ▶️ Start New Execution
+        </button>
+    </header>
+
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+        <div class="card passed">
+            <div class="card-icon">✅</div>
+            <div class="card-content">
+                <div class="card-value">{{passed}}</div>
+                <div class="card-label">Passed</div>
+            </div>
+        </div>
+        <div class="card failed">
+            <div class="card-icon">❌</div>
+            <div class="card-content">
+                <div class="card-value">{{failed}}</div>
+                <div class="card-label">Failed</div>
+            </div>
+        </div>
+        <div class="card blocked">
+            <div class="card-icon">⚠️</div>
+            <div class="card-content">
+                <div class="card-value">{{blocked}}</div>
+                <div class="card-label">Blocked</div>
+            </div>
+        </div>
+        <div class="card progress">
+            <div class="card-icon">⏳</div>
+            <div class="card-content">
+                <div class="card-value">{{inProgress}}</div>
+                <div class="card-label">In Progress</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Execution Cycles -->
+    <section class="execution-cycles">
+        <h2>Active Execution Cycles</h2>
+
+        <div *ngFor="let cycle of executionCycles" class="execution-card">
+            <div class="execution-header">
+                <div class="execution-meta">
+                    <span class="execution-id">{{cycle.id}}</span>
+                    <span class="status-badge" [class]="getStatusBadgeClass(cycle.status)">{{cycle.status}}</span>
+                    <span class="environment-badge">{{cycle.environment}}</span>
+                </div>
+                <div class="execution-actions">
+                    <button *ngIf="cycle.status === 'In Progress'" class="btn btn-outline"
+                        (click)="pauseExecution(cycle.id)">
+                        ⏸️ Pause
+                    </button>
+                    <button *ngIf="cycle.status === 'In Progress'" class="btn btn-danger"
+                        (click)="stopExecution(cycle.id)">
+                        ⏹️ Stop
+                    </button>
+                    <button class="btn btn-outline" (click)="viewDetails(cycle.id)">
+                        📊 Details
+                    </button>
+                </div>
+            </div>
+
+            <div class="execution-title">
+                <h3>{{cycle.title}}</h3>
+                <p>User Story: {{cycle.userStory}}</p>
+            </div>
+
+            <div class="execution-content">
+                <div class="progress-section">
+                    <h4>Execution Progress</h4>
+                    <div class="progress-item">
+                        <div class="progress-label">Overall</div>
+                        <div class="progress-value">{{cycle.progress.overall}}%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" [style.width.%]="cycle.progress.overall"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-label">Pass Rate</div>
+                        <div class="progress-value">{{cycle.progress.passRate}}%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill success" [style.width.%]="cycle.progress.passRate"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-section">
+                    <h4>Test Results</h4>
+                    <div class="result-item">
+                        <span class="result-label passed">Passed</span>
+                        <span class="result-value">{{cycle.testResults.passed}}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label failed">Failed</span>
+                        <span class="result-value">{{cycle.testResults.failed}}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label blocked">Blocked</span>
+                        <span class="result-value">{{cycle.testResults.blocked}}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label progress">In Progress</span>
+                        <span class="result-value">{{cycle.testResults.inProgress}}</span>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h4>Execution Info</h4>
+                    <div class="info-item">
+                        <span class="info-label">📅 Started:</span>
+                        <span class="info-value">{{cycle.executionInfo.started}}</span>
+                    </div>
+                    <div *ngIf="cycle.executionInfo.ended" class="info-item">
+                        <span class="info-label">🏁 Ended:</span>
+                        <span class="info-value">{{cycle.executionInfo.ended}}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">👤 Assignee:</span>
+                        <span class="info-value">{{cycle.executionInfo.assignee}}</span>
+                    </div>
+                </div>
+
+                <div class="actions-section">
+                    <h4>Quick Actions</h4>
+                    <button class="action-btn" (click)="viewFailedTests(cycle.id)">View Failed Tests</button>
+                    <button class="action-btn" (click)="exportReport(cycle.id)">Export Report</button>
+                    <button class="action-btn" (click)="viewLogs(cycle.id)">View Logs</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

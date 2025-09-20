@@ -1,0 +1,31 @@
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">
+            <div class="logo-icon">TM</div>
+            <span class="logo-text">TestManager</span>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <ul class="nav-list">
+            <li class="nav-item" *ngFor="let item of navigationItems" [class.active]="item.active"
+                (click)="setActive(item)">
+                <div class="nav-link">
+                    <i [class]="item.icon"></i>
+                    <span>{{ item.label }}</span>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="user-info">
+            <div class="user-avatar">JD</div>
+            <div class="user-details">
+                <div class="user-name">John Doe</div>
+                <div class="user-email">john@example.com</div>
+            </div>
+        </div>
+        <button class="sign-out-btn">Sign out</button>
+    </div>
+</aside>

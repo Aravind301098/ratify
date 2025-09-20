@@ -1,0 +1,146 @@
+<div class="repository-page">
+    <header class="page-header">
+        <div class="header-content">
+            <h1>Test Repository</h1>
+            <p>Manage test cases organized by user stories</p>
+        </div>
+        <button class="btn btn-primary" (click)="exportRepository()">
+            📦 Export Repository
+        </button>
+    </header>
+
+    <div class="summary-cards">
+        <div class="card">
+            <div class="card-icon">📋</div>
+            <div class="card-content">
+                <div class="card-value">{{userStories}}</div>
+                <div class="card-label">User Stories</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon">📝</div>
+            <div class="card-content">
+                <div class="card-value">{{totalTestCases}}</div>
+                <div class="card-label">Total Test Cases</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon">✅</div>
+            <div class="card-content">
+                <div class="card-value">{{approved}}%</div>
+                <div class="card-label">Approved</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon">▶️</div>
+            <div class="card-content">
+                <div class="card-value">{{executed}}%</div>
+                <div class="card-label">Executed</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="repository-content">
+        <div class="user-stories-section">
+            <h2>User Stories</h2>
+
+            <div class="user-stories-list">
+                <div *ngFor="let story of userStoriesList" class="story-card"
+                    [class.selected]="selectedUserStory?.id === story.id" (click)="selectUserStory(story)">
+                    <div class="story-header">
+                        <span class="story-id">{{story.id}}</span>
+                        <span class="status-badge" [class]="getStatusBadgeClass(story.status)">{{story.status}}</span>
+                    </div>
+                    <h3 class="story-title">{{story.title}}</h3>
+                    <div class="story-progress">
+                        <div class="progress-label">Progress</div>
+                        <div class="progress-value">{{story.progress}}%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" [style.width.%]="story.progress"></div>
+                        </div>
+                    </div>
+                    <div class="story-requirements">
+                        <span *ngFor="let req of story.requirements" class="requirement-tag">{{req}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-cases-section">
+            <div *ngIf="!selectedUserStory" class="no-selection">
+                <div class="no-selection-icon">🗂️</div>
+                <h3>Select a User Story</h3>
+                <p>Choose a user story from the left to view its test cases and manage execution</p>
+            </div>
+
+            <div *ngIf="selectedUserStory" class="test-cases-content">
+                <div class="test-cases-header">
+                    <h2>{{selectedUserStory}} - Test Cases</h2>
+                    <button class="btn btn-outline close-btn" (click)="clearSelection()">✕</button>
+                </div>
+
+                <div class="environment-toggle">
+                    <button class="env-btn" [class.active]="selectedEnvironment === 'SIT'"
+                        (click)="switchEnvironment('SIT')">
+                        SIT Environment
+                    </button>
+                    <button class="env-btn" [class.active]="selectedEnvironment === 'UAT'"
+                        (click)="switchEnvironment('UAT')">
+                        UAT Environment
+                    </button>
+                </div>
+
+                <div class="test-case-types">
+                    <div class="test-type-card">
+                        <div class="test-type-icon">🧪</div>
+                        <div class="test-type-content">
+                            <h4>Functional</h4>
+                            <div class="test-type-count">{{testCaseMetrics.functional}}</div>
+                        </div>
+                    </div>
+
+                    <div class="test-type-card">
+                        <div class="test-type-icon">📈</div>
+                        <div class="test-type-content">
+                            <h4>Load</h4>
+                            <div class="test-type-count">{{testCaseMetrics.load}}</div>
+                        </div>
+                    </div>
+
+                    <div class="test-type-card">
+                        <div class="test-type-icon">⚡</div>
+                        <div class="test-type-content">
+                            <h4>Performance</h4>
+                            <div class="test-type-count">{{testCaseMetrics.performance}}</div>
+                        </div>
+                    </div>
+
+                    <div class="test-type-card">
+                        <div class="test-type-icon">🔄</div>
+                        <div class="test-type-content">
+                            <h4>Regression</h4>
+                            <div class="test-type-count">{{testCaseMetrics.regression}}</div>
+                        </div>
+                    </div>
+
+                    <div class="test-type-card">
+                        <div class="test-type-icon">🛡️</div>
+                        <div class="test-type-content">
+                            <h4>Vulnerability</h4>
+                            <div class="test-type-count">{{testCaseMetrics.vulnerability}}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary execute-btn" (click)="executeAllTestCases()">
+                        ▶️ Execute All Test Cases
+                    </button>
+                    <button class="btn btn-outline" (click)="reviewTestCases()">
+                        📋 Review Test Cases
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
